@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1439247959 source:c:\users\roseli\documents\github\seguranca\vigenere\main.cpp
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
