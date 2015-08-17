@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1439784065 source:c:\users\roseli\documents\github\seguranca\substituicao\main.cpp
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<time.h>
+

@@ -3,6 +3,9 @@ Implementar um trabalho que seja capaz de cifrar e descifrar usando os algoritmo
 O programa deve usar como alfabeto os valores que cabem em um byte, ou seja, de 0x00 até 0xff.
 
 1- Cifra de Céasar:
+
+soma com a chave faz o modulo e grava
+
 */
 
 #include <stdio.h>
@@ -12,8 +15,8 @@ O programa deve usar como alfabeto os valores que cabem em um byte, ou seja, de 
 int main()
 {
     char linha[1];
-    int opcao, chave;
-    FILE *fp = fopen("cifra.txt", "r+"); //abrindo o arquivo da cifra
+    int opcao, chave, k;
+    FILE *fp;
     FILE *saida;
     if (fp != NULL){
 
@@ -26,10 +29,12 @@ int main()
         printf("Informe a chave: ");
         scanf("%d", &chave);
 
-        //criando os arquivos de resposta
+        //criando os arquivos de resposta e cifra
         if (opcao == 1){
-            saida = fopen("respostacriptografado.txt", "w+");
+            fp = fopen("cifra.txt", "r+"); //abrindo o arquivo da cifra
+            saida = fopen("respostacriptografado.dat", "wb+");
         }else{
+            fp = fopen("respostacriptografado.dat", "rb+");
             saida = fopen("respostadescriptografado.txt", "w+");
         }
 
@@ -39,13 +44,15 @@ int main()
             //para criptografar
             if (opcao == 1){
                 if (linha[0] != '\0'){
-                    fprintf(saida, "%c", (linha[0] + chave)%256); //256 para ficar dentro da tabela accii
+                    k = (linha[0] + chave)%256;
+                    fwrite(&k, 1, 1, saida); //256 para ficar dentro da tabela accii
                 }
 
             } //para descriptografar
             else {
                 if (linha[0] != '\0'){
-                    fprintf(saida, "%c", (linha[0]- chave + 256)%256);
+                    k = (linha[0]- chave + 256)%256;
+                    fwrite(&k, 1, 1, saida); //256 para ficar dentro da tabela accii
                 }
             }
         }

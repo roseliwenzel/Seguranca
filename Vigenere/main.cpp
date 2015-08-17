@@ -3,6 +3,9 @@ Implementar um trabalho que seja capaz de cifrar e descifrar usando os algoritmo
 O programa deve usar como alfabeto os valores que cabem em um byte, ou seja, de 0x00 até 0xff.
 
 3 -  Cifra de Vigenère
+
+repete a palavra
+
 */
 
 #include <stdio.h>
@@ -14,8 +17,8 @@ O programa deve usar como alfabeto os valores que cabem em um byte, ou seja, de 
 int main()
 {
     char linha[1], chave[TAM];
-    int opcao, aux = 0, controleCaractere = 0, numeroCaractere = 0, i, tamChave = 0;
-    FILE *fp = fopen("cifra.txt", "r+"); //abrindo o arquivo da cifra
+    int opcao, aux = 0, controleCaractere = 0, numeroCaractere = 0, i, tamChave = 0, k;
+    FILE *fp; //abrindo o arquivo da cifra
     FILE *saida;
 
     //deixando a chave zeara
@@ -33,8 +36,14 @@ int main()
     printf("Informe a chave: ");
     gets(chave);
 
-    fclose(fp);
-    fp = fopen("cifra.txt", "r+");
+    //criando os arquivos de resposta e cifra
+    if (opcao == 1){
+        fp = fopen("cifra.txt", "r+"); //abrindo o arquivo da cifra
+        saida = fopen("respostacriptografado.dat", "wb+");
+    }else{
+        fp = fopen("respostacriptografado.dat", "rb+");
+        saida = fopen("respostadescriptografado.txt", "w+");
+    }
 
     for(i = 0; i < TAM; i++){ //pegando tamanho da chave
         if (chave[i] != '\0'){
@@ -51,15 +60,14 @@ int main()
         }
     }
     fclose(fp);
-    fp = fopen("cifra.txt", "r+");
-    printf("%d", numeroCaractere);
+
+    if (opcao == 1){
+        fp = fopen("cifra.txt", "r+"); //abrindo o arquivo da cifra
+    }else{
+        fp = fopen("respostacriptografado.dat", "rb+");
+    }
+
     if (fp != NULL){
-        //criando os arquivos de resposta
-        if (opcao == 1){
-            saida = fopen("respostacriptografado.txt", "w+");
-        }else{
-            saida = fopen("respostadescriptografado.txt", "w+");
-        }
         while(!feof(fp)){ //ler um por um
             controleCaractere++;
             if (aux == tamChave){
@@ -68,9 +76,11 @@ int main()
             if(controleCaractere <= numeroCaractere){ //controle para não ler mais caracteres do que contém no arquivo
                 fread(linha,sizeof(linha), 1, fp); //escrevendo no arquivo
                 if (opcao == 1){
-                    fprintf(saida, "%c", (linha[0] + chave[aux])%256);
+                    k = (linha[0] + chave[aux])%256;
+                    fwrite(&k, 1, 1, saida);
                 }else{
-                    fprintf(saida, "%c", (linha[0] + 256 - chave[aux])%256);
+                    k = (linha[0] + 256 - chave[aux])%256;
+                    fwrite(&k, 1, 1, saida);
                 }
                 aux++;
             } else{
