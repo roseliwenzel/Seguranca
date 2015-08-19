@@ -1,9 +1,0 @@
-# depslib dependency file v1.0
-1438736719 source:c:\users\roseli\documents\github\seguranca\seguranca\main.cpp
-	<stdio.h>
-
-1439775015 source:c:\users\roseli\documents\github\seguranca\algoritmo de ceasar\main.cpp
-	<stdio.h>
-	<string.h>
-	<stdlib.h>
-
