@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1441136941 source:c:\users\roseli\documents\github\seguranca\t2\ceasar\main.cpp
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<math.h>
+
